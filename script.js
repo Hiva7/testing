@@ -29,7 +29,7 @@ input.style.width = "100%";
 
 const inputMessage = document.createElement("input");
 input.appendChild(inputMessage);
-inputMessage.style.width = "86%";
+inputMessage.style.width = "82%";
 
 const sendButton = document.createElement("button");
 input.appendChild(sendButton);
