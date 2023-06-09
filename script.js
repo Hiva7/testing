@@ -35,7 +35,7 @@ input.style.width = "100%";
 
 const inputMessage = document.createElement("input");
 input.appendChild(inputMessage);
-inputMessage.style.width = "79%";
+inputMessage.style.width = "75%";
 inputMessage.style.border = "2px solid black";
 inputMessage.style.borderRadius = "5px";
 inputMessage.maxLength = "500";
@@ -148,18 +148,6 @@ async function loadNames() {
     lastUpdate = Date.now();
     firstLoad = false;
 }
-
-// Resize if screen is too small
-function adjustStyles() {
-    if (window.innerWidth <= 400) {
-        inputMessage.style.width = "75%";
-    } else {
-        inputMessage.style.width = "79%";
-    }
-}
-
-window.addEventListener("resize", adjustStyles);
-adjustStyles();
 
 // Call loadNames every 5 seconds
 loadNames();
