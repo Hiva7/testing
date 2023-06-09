@@ -1,4 +1,7 @@
 document.documentElement.style.height = "100%";
+document.body.margin = "0px";
+document.body.padding = "0px";
+document.body.boxSizing = "border-box";
 document.body.style.height = "100%";
 document.body.style.display = "flex";
 document.body.style.justifyContent = "center";
@@ -35,6 +38,7 @@ input.appendChild(inputMessage);
 inputMessage.style.width = "79%";
 inputMessage.style.border = "2px solid black";
 inputMessage.style.borderRadius = "5px";
+inputMessage.maxLength = "500";
 
 const sendButton = document.createElement("button");
 input.appendChild(sendButton);
@@ -42,24 +46,30 @@ sendButton.style.marginLeft = "2%";
 sendButton.innerHTML = "Send";
 sendButton.style.cursor = "pointer";
 
+let sendMessageCooldown = false;
+
 function sendMessage() {
     if (inputMessage.value !== "") {
+        if (sendMessageCooldown == true) {
+            alert("Too fast");
+            return;
+        }
         // Show message and username
         let username = user.value;
-        if(username === ""){
+        if (username === "") {
             username = "Anonymous";
         }
-        else if(username === "Dev"){
+        else if (username === "Dev") {
             username = "Imposter";
         }
-        else if(username === "69420"){
+        else if (username === "69420") {
             username = "<span style='color: red;'>Dev</span>";
         }
         const message = document.createElement("p");
-        if(username !== "Dev"){
-        message.innerHTML = `<span style="color: green;">${username}</span> : ${inputMessage.value}`;
+        if (username !== "Dev") {
+            message.innerHTML = `<span style="color: green;">${username}</span> : ${inputMessage.value}`;
         }
-        else{
+        else {
             message.innerHTML = `${username} : ${inputMessage.value}`;
         }
         spacer.appendChild(message);
@@ -80,6 +90,12 @@ function sendMessage() {
         seconds = seconds < 10 ? '0' + seconds : seconds;
 
         let formattedDateTime = day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds;
+
+        // On cooldown
+        sendMessageCooldown = true;
+        setTimeout(function () {
+            sendMessageCooldown = false;
+        }, 2000);
 
         // Send an HTTP POST request to the web app URL
         const webAppUrl = 'https://script.google.com/macros/s/AKfycbzeMoJbeIsEbcja-PP7PJmaqeevo9mv33_5ZdTM_TgpspfS8prk8O6-GDp2b8SPhmNq/exec'; // Replace with your web app URL
@@ -107,7 +123,8 @@ inputMessage.addEventListener("keydown", function (event) {
     }
 });
 
-let lastUpdate
+let lastUpdate;
+let firstLoad = true;
 
 async function loadNames() {
     const response = await fetch(
@@ -122,12 +139,27 @@ async function loadNames() {
         const message = document.createElement("p");
         message.innerHTML = `<span style="color: green;">${element.username}</span> : ${element.message}`;
         spacer.appendChild(message);
-        spacer.scrollTop = spacer.scrollHeight;
+        if (firstLoad) {
+            spacer.scrollTop = spacer.scrollHeight;
+        }
     });
 
     // Update lastUpdate to current time
     lastUpdate = Date.now();
+    firstLoad = false;
 }
+
+// Resize if screen is too small
+function adjustStyles() {
+    if (window.innerWidth <= 400) {
+        inputMessage.style.width = "75%";
+    } else {
+        inputMessage.style.width = "79%";
+    }
+}
+
+window.addEventListener("resize", adjustStyles);
+adjustStyles();
 
 // Call loadNames every 5 seconds
 loadNames();
