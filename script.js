@@ -60,20 +60,14 @@ function sendMessage() {
             username = "Anonymous";
         }
         else if (username === "Dev") {
-            username = "Imposter";
+            username = `<span style='color: yellow;'>Imposter</span>`;
         }
-        else if (username === "69420") {
-            username = "<span style='color: red;'>Dev</span>";
-        }
-        const message = document.createElement("p");
-        if (username !== "Dev") {
-            message.innerHTML = `<span style="color: green;">${username}</span> : ${inputMessage.value}`;
+        else if (username === "129834765") {
+            username = `<span style='color: red;'>Dev</span>`;
         }
         else {
-            message.innerHTML = `${username} : ${inputMessage.value}`;
+            username = `<span style='color: green;'>${username}</span>`;
         }
-        spacer.appendChild(message);
-        spacer.scrollTop = spacer.scrollHeight;
 
         // Add leading zeros to day, month, hours, minutes, and seconds if necessary
         let currentDate = new Date();
