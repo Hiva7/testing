@@ -151,7 +151,7 @@ async function loadNames() {
 
 // Call loadNames every 5 seconds
 loadNames();
-setInterval(loadNames, 5000);
+setInterval(loadNames, 1000);
 
 const spacer = document.createElement("div");
 spacer.style.flexGrow = "1";
